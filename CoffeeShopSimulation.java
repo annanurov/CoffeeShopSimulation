@@ -23,8 +23,7 @@ public class CoffeeShopSimulation {
         int n= 100;int a = 3; int b = 2; int c = 4; int d = 5;
         Customer[] customers = makeArrayOfCustomers(n, a, b, c, d, 1);
         
-        int cumulativeTime = 0;
-        int cumulativeWaiting = 0;
+        int cumulative_time = 0;
         
         int q_duration_total = 0;
         int q_duration_indiv = 0;
@@ -36,31 +35,31 @@ public class CoffeeShopSimulation {
         Server [] servers = new Server[]{new Server(1), new Server(2),new Server(3)};
 
         //assign(customers[0],servers[0],cumulativeTime);
-        cumulativeTime += customers[0].duration_before;
+        cumulative_time += customers[0].duration_before;
         servers[0].cID = customers[0].id;
-        servers[0].cIn = cumulativeTime;
-        servers[0].cOut = cumulativeTime + customers[0].duration_ordering;
+        servers[0].cIn = cumulative_time;
+        servers[0].cOut = cumulative_time + customers[0].duration_ordering;
         
         //assign(customers[1],servers[1],cumulativeTime);        
-        cumulativeTime += customers[1].duration_before;
+        cumulative_time += customers[1].duration_before;
         servers[1].cID = customers[1].id;
-        servers[1].cIn = cumulativeTime;
-        servers[1].cOut = cumulativeTime + customers[1].duration_ordering;
+        servers[1].cIn = cumulative_time;
+        servers[1].cOut = cumulative_time + customers[1].duration_ordering;
         
         //assign(customers[2],servers[2],cumulativeTime);
-        cumulativeTime += customers[2].duration_before;
+        cumulative_time += customers[2].duration_before;
         servers[2].cID = customers[2].id;
-        servers[2].cIn = cumulativeTime;
-        servers[2].cOut = cumulativeTime + customers[2].duration_ordering;
+        servers[2].cIn = cumulative_time;
+        servers[2].cOut = cumulative_time + customers[2].duration_ordering;
               
         
         //System.out.print("cumulative time after 3rd cust: " + cumulativeTime + "\t");        
 
         for(int i = 3; i < n; i++){
             next_s = checkAvailableServers(servers);
-            cumulativeTime += customers[i].duration_before;
+            cumulative_time += customers[i].duration_before;
 //            q_duration_indiv =  cumulativeTime - servers[next_s].cOut;
-            q_duration_indiv =  servers[next_s].cOut - cumulativeTime;
+            q_duration_indiv =  servers[next_s].cOut - cumulative_time;
             if (q_duration_indiv < 0)
                 q_duration_indiv = 0;
             
@@ -68,7 +67,7 @@ public class CoffeeShopSimulation {
             else //do we need "else" here?
                 q_duration_total += q_duration_indiv;
             
-            servers[next_s].cIn = max (cumulativeTime , servers[next_s].cOut);
+            servers[next_s].cIn = max (cumulative_time , servers[next_s].cOut);
             servers[next_s].cOut = servers[next_s].cIn + customers[i].duration_ordering;
             
             servers[next_s].cID = customers[i].id;
@@ -78,14 +77,14 @@ public class CoffeeShopSimulation {
             /// q size for each customer:
             int q_size = 0;
             for(int j = 0; j < i; j++){
-                if (customers[j].time_order_complete > cumulativeTime)
+                if (customers[j].time_order_complete > cumulative_time)
                     q_size++;
             }
     /*
     * Excel simulation uses the opposite comparison for measuring queue. Equal
     * values of "order_compete_time" and "cumulativeTime" means next customer  
     * comes in at the same moment when the previous one walks out. In Excel, 
-    * it adds to queue size due to the way of comparion. Here it does not, due 
+    * it adds to queue size due to the way of comparison. Here it does not, due 
     * to a different compaison, which better models a real situation.
     */
             customers[i].q_size = q_size;
@@ -97,7 +96,7 @@ public class CoffeeShopSimulation {
             //q_max = max(q_max,q_indiv);
             
             //Report:
-                System.out.print("time: " + cumulativeTime + "\t");        
+                System.out.print("time: " + cumulative_time + "\t");        
                 System.out.print("customer: " + customers[i].id + "\t");
                 System.out.print("duration: " + customers[i].duration_ordering + "\t");
                 System.out.print("next_s: " + next_s + "\t");
