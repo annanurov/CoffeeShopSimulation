@@ -79,7 +79,7 @@ public class CoffeeShopSimulation {
             for(int j = 0; j < i; j++){
                 if (customers[j].time_order_complete > cumulative_time)
                     q_size++;
-            }
+            }//end of for, j
     /*
     * Excel simulation uses the opposite comparison for measuring queue. Equal
     * values of "order_compete_time" and "cumulativeTime" means next customer  
@@ -106,7 +106,7 @@ public class CoffeeShopSimulation {
                 System.out.print("c_out:" + servers[next_s].cOut + "\t");
                 System.out.print("q_size:" + customers[i].q_size + "\t");
                 System.out.print("\n");
-        }
+        }//enf of for, i
         System.out.println("Total queuing time: " + q_duration_total);
         System.out.println("Average queuing time: " + q_duration_total / (double)n);
         System.out.println("Maximum queuing time: " + q_duration_max);
@@ -124,7 +124,7 @@ public class CoffeeShopSimulation {
         s.cID = c.id;
         s.cIn = max(cumulativeTime, s.cOut);
         s.cOut = cumulativeTime + c.duration_ordering;
-    }
+    }//end of assign
     
     public static int checkAvailableServers(Server [] servers){
         int earliestTimeOff = servers[0].cOut;
@@ -134,7 +134,7 @@ public class CoffeeShopSimulation {
                 earliestTimeOff = servers[i].cOut;
                 s = i;
             }
-        } 
+        } //end of for, i
         return s;
     }//end of checkAvailableServers
         
@@ -146,16 +146,16 @@ public class CoffeeShopSimulation {
             res[i].id = i;
             res[i].duration_before = (int)(Math.random() * a + b);//rand norm
             res[i].duration_ordering = (int)(Math.random() * c + d);//rand norm
-            if(show > 0){
+            if(show > 0)
                 System.out.println(res[i].id + "\t" + res[i].duration_before + "\t" + res[i].duration_ordering);
-            }
+            
             
             // for normal distribution use: 
             // nextGaussian() * sigma + mu
         }//end of for
-        if(show > 0){
+        if(show > 0)
             System.out.println("--------------------");
-        }
+        
         return res;
     }//end of makeArrayOfCustomers
     
